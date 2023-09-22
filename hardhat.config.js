@@ -12,13 +12,6 @@ module.exports = {
       url: process.env.MUMBAI_TESNET_URL,
       accounts: [process.env.PRIVATE_KEY],
       timeout: 0,
-      gas: "auto", // maximo de gas a gastar en la transaccion
-      gasPrice: "auto", // techo del precio de gas
-    },
-    goerli: {
-      url: process.env.GOERLI_TESNET_URL,
-      accounts: [process.env.PRIVATE_KEY || ""],
-      timeout: 20000,
       gas: "auto",
       gasPrice: "auto",
     },
