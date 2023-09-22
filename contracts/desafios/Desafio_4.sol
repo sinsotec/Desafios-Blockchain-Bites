@@ -63,6 +63,23 @@ pragma solidity 0.8.19;
  */
 
 contract Desafio_4 {
+
+    bytes32[] arrayAuctions;
+
+    struct Auction {
+        bool active;
+        uint256 startTime;
+        uint256 endTime;
+        uint256 createdAt;
+        uint256 highestBid;
+        address highestBidder;
+        address[] offersAccounts;
+        mapping(address => uint256) offers;
+    }
+        
+    mapping(bytes32 auction => Auction subasta) public auctions;
+    //mapping(bytes32 => mapping(address => uint256)) offers
+
     event SubastaCreada(bytes32 indexed _auctionId, address indexed _creator);
     event OfertaPropuesta(address indexed _bidder, uint256 _bid);
     event SubastaFinalizada(address indexed _winner, uint256 _bid);
@@ -75,24 +92,65 @@ contract Desafio_4 {
     error SubastaEnMarcha();
 
     function creaSubasta(uint256 _startTime, uint256 _endTime) public payable {
+        if(msg.value < 1 ether) revert CantidadIncorrectaEth();
+        if(_endTime < _startTime) revert TiempoInvalido();
         bytes32 _auctionId = _createId(_startTime, _endTime);
+        arrayAuctions.push(_auctionId);
+        Auction storage nuevaSubasta = auctions[_auctionId];
+        nuevaSubasta.active = true;
+        nuevaSubasta.startTime = _startTime;
+        nuevaSubasta.endTime = _endTime;
+        nuevaSubasta.createdAt = block.timestamp;
+        //nuevaSubasta.ofertaActual = 0;
 
-        // emit SubastaCreada(_auctionId, msg.sender);
+        emit SubastaCreada(_auctionId, msg.sender);
     }
 
-    function proponerOferta(bytes32 _auctionId) public payable {
-        // emit OfertaPropuesta(msg.sender, auction.offers[msg.sender]);
-    }
+     function proponerOferta(bytes32 _auctionId) public payable {
+        if (!auctions[_auctionId].active) revert SubastaInexistente();
+        if (auctions[_auctionId].highestBid > msg.value) revert OfertaInvalida();
+        if (block.timestamp > auctions[_auctionId].endTime) revert FueraDeTiempo();
+        
+        auctions[_auctionId].highestBid = msg.value;
+        auctions[_auctionId].highestBidder = msg.sender;
+        auctions[_auctionId].offersAccounts.push(msg.sender);
+        auctions[_auctionId].offers[msg.sender] += msg.value;
+        
+        if ((auctions[_auctionId].endTime - block.timestamp) < 5 minutes){
+            auctions[_auctionId].endTime += 5 minutes;
+        }
+
+        emit OfertaPropuesta(msg.sender, auctions[_auctionId].offers[msg.sender]);
+    } 
+    
 
     function finalizarSubasta(bytes32 _auctionId) public {
-        // emit SubastaFinalizada(auction.highestBidder, auction.highestBid);
+        if (!auctions[_auctionId].active) revert SubastaInexistente();
+        if (block.timestamp < auctions[_auctionId].endTime) revert SubastaEnMarcha();
+        require(auctions[_auctionId].active, "La Subasta no se puede volver a finalizar");
+        if(auctions[_auctionId].active){
+            auctions[_auctionId].active = false;
+            auctions[_auctionId].offers[auctions[_auctionId].highestBidder] += 1 ether;
+        }
+
+        emit SubastaFinalizada(auctions[_auctionId].highestBidder, auctions[_auctionId].highestBid);
     }
 
     function recuperarOferta(bytes32 _auctionId) public {
-        // payable(msg.sender).transfer(amount);
+        if (block.timestamp < auctions[_auctionId].endTime) revert SubastaEnMarcha();
+            uint256 amountToTransfer = auctions[_auctionId].offers[msg.sender];
+            payable(msg.sender).transfer(amountToTransfer);
     }
 
-    function verSubastasActivas() public view returns (bytes32[] memory) {}
+    function verSubastasActivas() public view returns (bytes32[] memory) {
+        bytes32[] memory arrayActiveAuctions = new bytes32[](arrayAuctions.length);
+        for (uint i = 0 ; i < arrayAuctions.length; i++) {
+            if(auctions[arrayAuctions[i]].active){
+                arrayActiveAuctions[i] = arrayAuctions[i];
+            }
+        }
+        return arrayActiveAuctions;
+    }
 
     ////////////////////////////////////////////////////////////////////////////////
     ////////////////////////////   INTERNAL METHODS  ///////////////////////////////

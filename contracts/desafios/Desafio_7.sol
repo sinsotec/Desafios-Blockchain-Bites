@@ -18,17 +18,49 @@ interface IMiPrimerTKN {
     function transfer(address to, uint256 amount) external returns (bool);
 
     function balanceOf(address account) external view returns (uint256);
+    
 }
 
 contract AirdropTwo is Pausable, AccessControl {
     // instanciamos el token en el contrato
     IMiPrimerTKN miPrimerToken;
 
-    constructor(address _tokenAddress) {}
+    struct Usuario {
+        uint256 balance;
+        uint8 maxAttempts;
+        uint256 limiteParticipaciones;
+        uint256 nextAttempt;
+        uint8 attempts;
+    }
 
-    function participateInAirdrop() public {}
 
-    function participateInAirdrop(address _elQueRefirio) public {}
+    mapping(address => Usuario) public participantes;
+
+    constructor(address _tokenAddress) {
+        miPrimerToken = IMiPrimerTKN(_tokenAddress);
+        _grantRole(DEFAULT_ADMIN_ROLE, msg.sender);
+        
+    }
+
+
+    function participateInAirdrop() public { //mandar todos los token a este contrato
+        require(miPrimerToken.balanceOf(address(this)) > 0, "El contrato Airdrop no tiene tokens suficientes");
+        require(block.timestamp > participantes[msg.sender].nextAttempt || participantes[msg.sender].nextAttempt == 0,  "Ya participaste en el ultimo dia"); 
+        require(participantes[msg.sender].attempts < 10,  "Llegaste limite de participaciones"); 
+        miPrimerToken.transfer(address(this), _getRadomNumber10005000());
+        participantes[msg.sender].nextAttempt = block.timestamp + 1 days;
+        if(participantes[msg.sender].attempts == 0){participantes[msg.sender].limiteParticipaciones = 10;}
+        participantes[msg.sender].limiteParticipaciones--;
+        participantes[msg.sender].attempts++;
+    }
+
+    function participateInAirdrop(address _elQueRefirio) public {
+        require(msg.sender != _elQueRefirio, "No puede autoreferirse");
+        if(participantes[_elQueRefirio].attempts == 0){participantes[_elQueRefirio].limiteParticipaciones = 10;}
+        participantes[_elQueRefirio].nextAttempt += 3 days;
+        participantes[_elQueRefirio].limiteParticipaciones += 3;
+
+    }
 
     ///////////////////////////////////////////////////////////////
     ////                     HELPER FUNCTIONS                  ////

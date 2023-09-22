@@ -34,37 +34,47 @@ contract AirdropOne is Pausable, AccessControl {
 
     address public miPrimerTokenAdd;
 
+    IMiPrimerTKN public primerToken;
+
     mapping(address => bool) public whiteList;
     mapping(address => bool) public haSolicitado;
 
     constructor(address _tokenAddress) {
         miPrimerTokenAdd = _tokenAddress;
-
+        primerToken = IMiPrimerTKN(miPrimerTokenAdd);
         _grantRole(DEFAULT_ADMIN_ROLE, msg.sender);
         _grantRole(PAUSER_ROLE, msg.sender);
     }
 
     function participateInAirdrop() public whenNotPaused {
         // lista blanca
-
+        require(whiteList[msg.sender], "No esta en lista blanca");
         // ya solicitó tokens
+        require(!haSolicitado[msg.sender], "Ya ha participado");
 
         // pedir número random de tokens
         uint256 tokensToReceive = _getRadomNumberBelow1000();
 
         // verificar que no se exceda el total de tokens a repartir
-
+        require(tokensToReceive <= (totalAirdropMax - airdropGivenSoFar), "superior al maximo");
         // actualizar el conteo de tokens repartidos
+        airdropGivenSoFar += tokensToReceive;
         // marcar que ya ha participado
+        haSolicitado[msg.sender] = true;
 
         // transferir los tokens
+        primerToken.mint(msg.sender, tokensToReceive);
     }
 
     function quemarMisTokensParaParticipar() public whenNotPaused {
         // verificar que el usuario aun no ha participado
+        require(haSolicitado[msg.sender], "Usted aun no ha participado");
         // Verificar si el que llama tiene suficientes tokens
+        require(primerToken.balanceOf(msg.sender) >= quemaTokensParticipar, "No tiene suficientes tokens para quemar");
         // quemar los tokens
+        primerToken.burn(msg.sender, quemaTokensParticipar);
         // dar otro chance
+        haSolicitado[msg.sender] = false;
     }
 
     ///////////////////////////////////////////////////////////////

