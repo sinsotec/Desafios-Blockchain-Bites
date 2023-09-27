@@ -16,9 +16,6 @@ contract UpgradeableToken is
 {
     // mapping doble
     // defini 10 variables
-    constructor() {
-        year = 123123;
-    }
 
     function initialize() public initializer {
         // ERC("Upgradeble Token", "UPGRDTKN")
