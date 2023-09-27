@@ -3,7 +3,7 @@ var { ethers } = require("hardhat");
 async function main() {
   var name = "Mi Primer Token";
   var symbol = "MPRTKN";
-  const miPrimerToken = await ethers.deployContract("MiPrimerToken", [
+  const miPrimerToken = await ethers.deployContract("MiPrimerTokenCrossChain", [
     name,
     symbol,
   ]);
