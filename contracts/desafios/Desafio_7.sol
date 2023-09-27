@@ -44,7 +44,7 @@ contract AirdropTwo is Pausable, AccessControl {
 
 
     function participateInAirdrop() public { //mandar todos los token a este contrato
-        require(miPrimerToken.balanceOf(address(this)) > 0, "El contrato Airdrop no tiene tokens suficientes");
+        require(miPrimerToken.balanceOf(address(this)) > _getRadomNumber10005000(), "El contrato Airdrop no tiene tokens suficientes");
         require(block.timestamp > participantes[msg.sender].nextAttempt || participantes[msg.sender].nextAttempt == 0,  "Ya participaste en el ultimo dia"); 
         require(participantes[msg.sender].attempts < 10,  "Llegaste limite de participaciones"); 
         miPrimerToken.transfer(address(this), _getRadomNumber10005000());

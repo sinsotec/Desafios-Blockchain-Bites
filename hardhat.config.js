@@ -8,7 +8,7 @@ module.exports = {
     localhost: {
       url: "http://127.0.0.1:8545",
     },
-    /* mumbai: {
+    mumbai: {
       url: process.env.MUMBAI_TESNET_URL,
       accounts: [process.env.PRIVATE_KEY],
       timeout: 0,
@@ -21,6 +21,6 @@ module.exports = {
       polygonMumbai: process.env.API_KEY_POLYGONSCAN,
       sepolia: process.env.API_KEY_ETHERSCAN,
       goerli: process.env.API_KEY_ETHERSCAN,
-    }, */
+    }, 
   },
 };

@@ -56,7 +56,7 @@ contract AirdropOne is Pausable, AccessControl {
         uint256 tokensToReceive = _getRadomNumberBelow1000();
 
         // verificar que no se exceda el total de tokens a repartir
-        require(tokensToReceive <= (totalAirdropMax - airdropGivenSoFar), "superior al maximo");
+        require(tokensToReceive < (totalAirdropMax - airdropGivenSoFar), "superior al maximo");
         // actualizar el conteo de tokens repartidos
         airdropGivenSoFar += tokensToReceive;
         // marcar que ya ha participado
