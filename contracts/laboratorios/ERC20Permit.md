@@ -46,11 +46,11 @@ Veámoslo gráficamente:
 
    ```solidity
    // SPDX-License-Identifier: MIT
-   pragma solidity 0.8.18;
-   
+   pragma solidity 0.8.19;
+
    import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
    import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Permit.sol";
-   
+
    contract Token20Permit is ERC20, ERC20Permit {
        constructor()
            ERC20("Token20 Permit", "TKN20PER")
@@ -75,7 +75,7 @@ Veámoslo gráficamente:
 
    - `permit()`: este método es el que finalmente altera el mapping de `allowances`. El punto de partida son los parámetros definidos por el `Propietario` que son los siguientes: `owner`, `spender`, `value` y `deadline`. Así también, el `Propietario` crea la firma digital descompuesta en `v`, `r`, y `s`, lo cual veremos cómo se genera más adelante.
    - `nonces()`: es la cantidad de permisos otorgados de aquel que generó la firma. Se usa como técnica para evitar el replay attack (o ataque de repetición). Internamente se lleva dicha cuenta y se incrementa cada vez que el método `permit` se ejecuta por un `Propietario` en particular.
-   - `DOMAIN_SEPARATOR()`: Este método es definido de acuerdo al [`EIP712`](https://eips.ethereum.org/EIPS/eip-712). El objetivo  es crear un dominio único de aplicación para el token que usará el `ERC20Permit`. De ese modo la firma digital será valida únicamente en este contrato (y no en otro que también implementa `ERC20Permit`).
+   - `DOMAIN_SEPARATOR()`: Este método es definido de acuerdo al [`EIP712`](https://eips.ethereum.org/EIPS/eip-712). El objetivo es crear un dominio único de aplicación para el token que usará el `ERC20Permit`. De ese modo la firma digital será valida únicamente en este contrato (y no en otro que también implementa `ERC20Permit`).
 
 4. Antes de continuar, voy a preparar tres billeteras (o addresses): el `Propietario` de los tokens, el `Gastador` y una billetera `X` que será el que ejecuta el `permit()`. En mi caso son las siguientes (en tu caso serán otros valores):
 
