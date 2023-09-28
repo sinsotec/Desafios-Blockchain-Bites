@@ -16,6 +16,7 @@ async function main() {
   await hre.run("verify:verify", {
     address: await miPrimerToken.getAddress(),
     constructorArguments: [name, symbol],
+    contract: "contracts/class13/MiPrimerToken.sol:MiPrimerTokenCrossChain",
   });
 }
 
