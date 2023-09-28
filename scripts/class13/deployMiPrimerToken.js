@@ -1,8 +1,8 @@
 var { ethers } = require("hardhat");
 
 async function main() {
-  var name = "Mi Primer Token";
-  var symbol = "MPRTKN";
+  var name = "Mi Primer Token OJS";
+  var symbol = "OJSS";
   const miPrimerToken = await ethers.deployContract("MiPrimerTokenCrossChain", [
     name,
     symbol,
@@ -13,9 +13,14 @@ async function main() {
   var res = await miPrimerToken.waitForDeployment();
   await res.deploymentTransaction().wait(10);
 
+  /* await hre.run("verify:verify", {
+    address: await miPrimerToken.getAddress(),
+    constructorArguments: [name, symbol],
+  }); */
   await hre.run("verify:verify", {
     address: await miPrimerToken.getAddress(),
     constructorArguments: [name, symbol],
+    contract: "contracts/class13/MiPrimerToken.sol:MiPrimerTokenCrossChain",
   });
 }
 
