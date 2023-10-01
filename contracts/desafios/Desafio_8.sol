@@ -91,7 +91,7 @@ contract AttackerLoteria {
             keccak256(
                 abi.encodePacked(
                     loteria.FACTOR(),
-                    msg.value,
+                    uint256(1500),
                     tx.origin,
                     block.timestamp,
                     address(this)
