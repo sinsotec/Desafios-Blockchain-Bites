@@ -30,6 +30,13 @@ module.exports = {
       gas: "auto",
       gasPrice: "auto",
     },
+    goerli: {
+      url: process.env.GOERLI_TESNET_URL,
+      accounts: [process.env.PRIVATE_KEY || ""],
+      timeout: 0,
+      gas: "auto",
+      gasPrice: "auto",
+    },
   },
   etherscan: {
     apiKey: {
