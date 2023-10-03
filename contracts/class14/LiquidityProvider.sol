@@ -16,6 +16,12 @@ interface IUniswapV2Router02 {
         address to,
         uint deadline
     ) external returns (uint amountA, uint amountB, uint liquidity);
+
+    function getAmountIn(
+        uint amountOut,
+        uint reserveIn,
+        uint reserveOut
+    ) external returns (uint amountIn);
 }
 
 // Factory: consultar el address del LP token
