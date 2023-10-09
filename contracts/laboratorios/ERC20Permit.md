@@ -195,7 +195,7 @@ Si lograste este resultado, felicidades. Haz realizado con éxitos este laborato
 ## Observaciones
 
 1. La billetera `X` puede ser reemplazada por cualquier otra que tenga balance de `MATIC` para pagar la transacción. Incluso, el mismo `Gastador` puede ser `X` también.
-2. También sería factible que esta cuenta `X` sea un contrato inteligente. En el caso se decida ir por esta ruta, el address del contrato inteligente sería el `Gastador`. Ello porque el contrato inteligente será el que ejecutará el `transferFrom()`. Para que no falle, el contrato debe poseer `allowance` del `Propietario` para mover sus tokens.
+2. `X` es indistinto si es un EOA o SCA. El papel de `X` es que ejecute el método `permit()`. El gastador, que en el ejemplo es `Bob`, puede ser reemplazado por un contrato inteligente. En ese caso, un SCA se convertiría en el gastador. Este gastador puede ejecutar `transferFrom()` según su lógica en el futuro.
 
 ## Preguntas
 
