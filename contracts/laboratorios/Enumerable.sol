@@ -6,7 +6,7 @@ import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 
 contract Enumerable is ERC721, ERC721Enumerable {
 
-    constructor() ERC721("Enumerable", "ENMRBL") {}
+    constructor(string memory _name, string memory _simbol ) ERC721(_name, _simbol) {}
 
     function _baseURI() internal pure override returns (string memory) {
         return "ipfs://Qma4s6uyVSCaTouXM8N8AkAL4jc11D53Tsn1kZPs4CGd6b/";
@@ -33,4 +33,16 @@ contract Enumerable is ERC721, ERC721Enumerable {
     {
         return super.supportsInterface(interfaceId);
     }
+
+
+    function getNftsFromWallet(address account) public view returns(uint256[] memory result){
+        uint256 balance = balanceOf(account);
+        result = new uint256[](balance);
+        for(uint256 index; index < balance; index++){
+            result[index] = tokenOfOwnerByIndex(account, index);
+        } 
+        return result;
+    }
+
+    
 }

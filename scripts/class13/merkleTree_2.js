@@ -17,13 +17,14 @@ function construyendoMerkleTree() {
   var elementosHasheados = walletAndIds.map(({ tokenId, account }) => {
     return hashToken(tokenId, account);
   });
+  console.log(elementosHasheados);
   merkleTree = new MerkleTree(elementosHasheados, keccak256, {
     sortPairs: true,
   });
 
   root = merkleTree.getHexRoot();
 
-  console.log(root);
+  //console.log(root);
 }
 
 var hasheandoElemento, pruebas;

@@ -186,7 +186,7 @@ Ahora, vamos a listar los NFTs del `Propietario` y `Destinatario` después de la
    function getNftsFromWallet(address account) public view returns(uint256[] memory result);
    ```
 
-3. Publica el contrato en Mumbai y pega el `address` aquí:
+3. Publica el contrato en Mumbai y pega el `address` aquí: 0x91a2d52CacAdE323CBAd4251f9019f61eBF0D3D1
 
 4. Una billetera será el `Propietario` y otra `Destinatario`. `Propietario` debe acuñar 10 token IDs que son los siguientes: 2, 4, 6, 8, 10, 12, 14, 16, 18, 20. `Propietario` debe transferir a `Destinatario` los siguientes tokens: 4, 10, 14, 16 y 18.
 
@@ -194,5 +194,5 @@ Ahora, vamos a listar los NFTs del `Propietario` y `Destinatario` después de la
 
    |    Address     |  getNftsFromWallet  |
    | :------------: | :-----------------: |
-   | `Propietario`  |  [2, 6, 8, 12, 20]  |
-   | `Destinatario` | [4, 10, 14, 16, 18] |
+   | `Propietario`  |  [2, 6, 8, 12, 20]  | // 0xE1E87d878988c078E4234ba5C8Fa9d4bcC487799
+   | `Destinatario` | [4, 10, 14, 16, 18] | // 0x28906f041A3922aa33073C2384f41f735F9da338
